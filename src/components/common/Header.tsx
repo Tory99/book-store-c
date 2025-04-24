@@ -1,7 +1,8 @@
 import {styled} from "styled-components";
-import ThemeSwitcher from "../header/ThemeSwitcher";
 import logo from '../../assets/images/logo.png'
 import { FaSignInAlt, FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useCategory } from "../../hooks/useCategory";
 
 const CATEGORY = [
     {
@@ -23,19 +24,23 @@ const CATEGORY = [
 ]
 
 function Header() {
+    const { category } = useCategory();
+
     return (
     <HeaderStyle>
       <h1 className="logo">
+        <Link to='/'>
         <img src={logo} alt="book store"/>
+        </Link>
       </h1>
       <nav className="category">
         <ul>
             {
-                CATEGORY.map((item) => (
+                category.map((item) => (
                     <li key = {item.id}>
-                        <a href={item.id === null ? '/books' : `/books?category_id=${item.id}`}>
+                        <Link to={item.id === null ? '/books' : `/books?category_id=${item.id}`}>
                             {item.name}
-                        </a>
+                        </Link>
                     </li>
                 ))
             }
@@ -50,7 +55,7 @@ function Header() {
                 </a>
             </li>
             <li>
-                <a href="/login">
+                <a href="/signup">
                 <FaRegUser />
                 회원가입
                 </a>
