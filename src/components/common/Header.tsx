@@ -3,28 +3,11 @@ import logo from '../../assets/images/logo.png'
 import { FaSignInAlt, FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCategory } from "../../hooks/useCategory";
-
-const CATEGORY = [
-    {
-        id: null,
-        name:"전체",
-    },
-    {
-        id: 0,
-        name:"동화",
-    },
-    {
-        id: 1,
-        name:"소설",
-    },
-    {
-        id: 2,
-        name:"사회",
-    },
-]
+import { useAuthStore } from "../../store/authStore";
 
 function Header() {
     const { category } = useCategory();
+    const { isLoggedIn, storeLogin} = useAuthStore();
 
     return (
     <HeaderStyle>
@@ -47,20 +30,40 @@ function Header() {
         </ul>
       </nav>
       <nav className="auth">
-        <ul>
-            <li>
-                <a href="/login">
-                <FaSignInAlt />
-                로그인
-                </a>
-            </li>
-            <li>
-                <a href="/signup">
-                <FaRegUser />
-                회원가입
-                </a>
-            </li>
-        </ul>
+        {
+            isLoggedIn && (
+                <ul>
+                    <li>
+                        <Link to="/cart">장바구니</Link>
+                    </li>
+                    <li>
+                        <Link to="/orderlist">주문 내역</Link>
+                    </li>
+                    <li>
+                        <button>로그아웃</button>
+                    </li>
+                </ul>
+            )
+        }
+        {
+            !isLoggedIn && (
+            <ul>
+                <li>
+                    <Link to="/login">
+                    <FaSignInAlt />
+                    로그인
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/signup">
+                    <FaRegUser />
+                    회원가입
+                    </Link>
+                </li>
+            </ul>
+            )
+        }
+        
       </nav>
     </HeaderStyle>
     );
