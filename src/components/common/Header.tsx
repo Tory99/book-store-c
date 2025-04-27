@@ -7,7 +7,7 @@ import { useAuthStore } from "../../store/authStore";
 
 function Header() {
     const { category } = useCategory();
-    const { isLoggedIn, storeLogin} = useAuthStore();
+    const { isLoggedIn, storeLogout} = useAuthStore();
 
     return (
     <HeaderStyle>
@@ -40,7 +40,7 @@ function Header() {
                         <Link to="/orderlist">주문 내역</Link>
                     </li>
                     <li>
-                        <button>로그아웃</button>
+                        <button onClick={storeLogout}>로그아웃</button>
                     </li>
                 </ul>
             )

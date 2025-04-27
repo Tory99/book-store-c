@@ -8,6 +8,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Login from "./pages/login";
 import Books from "./pages/Books";
 import ThemeSwitcher from "./components/header/ThemeSwitcher";
+import BookDetail from "./pages/BookDetail";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Layout><Login /></Layout>
+  },
+  {
+    path: "/book/:bookId",
+    element: <Layout><BookDetail /></Layout>
   },
 ])
 
