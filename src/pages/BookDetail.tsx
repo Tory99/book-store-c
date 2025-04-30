@@ -5,7 +5,7 @@ import { useBook } from '../hooks/useBook';
 import { getImgSrc } from '../utils/image';
 import Title from '../components/common/Title';
 import { BookDetail as IBookDetail } from '../models/book.model';
-import { formateDate, formatNumber } from '../utils/format';
+import { formatDate, formatNumber } from '../utils/format';
 import { Link } from 'react-router-dom';
 import EllipsisBox from '../components/common/EllipsisBox';
 import LikeButton from '../components/book/LikeButton';
@@ -33,7 +33,7 @@ const bookInfoList = [
         lable: "출간일",
         key: "pubDate",
         filter: (book: IBookDetail) => {
-            return formateDate(book.pubDate);
+            return formatDate(book.pubDate);
         }
     },
     {

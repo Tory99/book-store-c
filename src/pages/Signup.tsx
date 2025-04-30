@@ -15,7 +15,7 @@ export interface SignupProps {
 
 function Signup() {
     const navigator = useNavigate();
-    const showAlert = useAlert();
+    const {showAlert} = useAlert();
     // const [ email, setEmail] = useState("");
     // const [ password, setPassword] = useState("");
 

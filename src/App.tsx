@@ -7,8 +7,9 @@ import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
 import Login from "./pages/login";
 import Books from "./pages/Books";
-import ThemeSwitcher from "./components/header/ThemeSwitcher";
 import BookDetail from "./pages/BookDetail";
+import OrderList from "./pages/OrderList";
+
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/book/:bookId",
     element: <Layout><BookDetail /></Layout>
+  },
+  {
+    path: "/orderlist",
+    element: <Layout><OrderList /></Layout>
   },
 ])
 
