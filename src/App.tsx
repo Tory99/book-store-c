@@ -5,49 +5,73 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Error from "./components/common/Error";
 import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
-import Login from "./pages/login";
 import Books from "./pages/Books";
 import BookDetail from "./pages/BookDetail";
+import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 import OrderList from "./pages/OrderList";
+import { queryClient } from "./api/queryClient";
+import Login from "./pages/login";
+import { QueryClientProvider } from "react-query";
+import ToastContainer from "./components/common/toast/ToastContainer";
 
+const routeList = [
+  {
+    path : "/",
+    element : <Home />,
+  },
+  {
+    path : "/books",
+    element : <Books />
+  },
+  {
+    path : "/signup",
+    element : <Signup />
+  },
+  {
+    path : "/reset",
+    element : <ResetPassword />
+  },
+  {
+    path : "/login",
+    element : <Login />
+  },
+  {
+    path : "/books/:bookId",
+    element : <BookDetail />
+  },
+  {
+    path : "/cart",
+    element : <Cart />
+  },
+  {
+    path : "/order",
+    element : <Order />
+  },
+  {
+    path : "/orderlist",
+    element : <OrderList />
+  },
+];
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout><Home /></Layout>,
-    errorElement: <Error />
-  },
-  {
-    path: "/books",
-    element: <Layout><Books/></Layout>
-  },
-  {
-    path: "/signup",
-    element: <Layout><Signup /></Layout>
-  },
-  {
-    path: "/reset",
-    element: <Layout><ResetPassword /></Layout>
-  },
-  {
-    path: "/login",
-    element: <Layout><Login /></Layout>
-  },
-  {
-    path: "/book/:bookId",
-    element: <Layout><BookDetail /></Layout>
-  },
-  {
-    path: "/orderlist",
-    element: <Layout><OrderList /></Layout>
-  },
-])
+const router = createBrowserRouter(routeList.map((item) => {
+  return {
+    ...item,
+    element : (
+      <Layout>{item.element}</Layout>
+    ),
+    errorElement : <Error />
+  }
+}));
 
 function App() {
   return (
-    <BookStoreThemeProvider>
-      <RouterProvider router={router} />
-    </BookStoreThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <BookStoreThemeProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </BookStoreThemeProvider>
+    </QueryClientProvider>
   );
 }
 

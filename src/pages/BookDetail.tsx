@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useBook } from '../hooks/useBook';
@@ -9,6 +9,9 @@ import { formatDate, formatNumber } from '../utils/format';
 import { Link } from 'react-router-dom';
 import EllipsisBox from '../components/common/EllipsisBox';
 import LikeButton from '../components/book/LikeButton';
+import BookReview from '@/components/book/BookReview';
+import { Tab, Tabs } from '@/components/common/Tabs';
+import Modal from '@/components/common/Modal';
 
 const bookInfoList = [
     {
@@ -48,15 +51,22 @@ const bookInfoList = [
 function BookDetail() {
 
     const {bookId} = useParams();
-    const { book, likeToggle } = useBook(bookId);
+    const { book, likeToggle, reviews, addReview } = useBook(bookId);
 
+    const [isImgOpen, setIsImgOpen] = useState(false);
     if(!book) return null;
 
     return (
         <BookDetailStyle>
             <header className="header">
-                <div className="img">
+                <div className="img" onClick={() =>
+                    setIsImgOpen(true) }>
                     <img src={getImgSrc(book.img)} alt={book.title} />
+                    <Modal isOpen={isImgOpen} onClose={() =>{
+                        setIsImgOpen(false)
+                    }}>
+                        <img src={getImgSrc(book.img)} alt={book.title} />
+                    </Modal>
                 </div>
                 <div className="info">
                     <Title size='large' color='text'>
@@ -84,14 +94,29 @@ function BookDetail() {
                 </div>
             </header>
             <div className="content">
-                <Title size='medium'>상세 설명</Title>
-                <EllipsisBox linelimit={2}>
-                    {book.detail}
-                </EllipsisBox>
-                
+                <Tabs>
+                    <Tab title="상세 설명">
+                        <Title size='medium'>상세 설명</Title>
+                        <EllipsisBox linelimit={2}>
+                            {book.detail}
+                        </EllipsisBox>
+                    </Tab>
+                </Tabs>
 
-                <Title size='medium'>목차</Title>
-                <p className="index">{book.contents}</p>
+                <Tabs>
+                    <Tab title="목차">
+                        <Title size='medium'>목차</Title>
+                        <p className="index">{book.contents}</p>
+                    </Tab>
+                </Tabs>
+
+                <Tabs>
+                    <Tab title="리뷰">
+                        <Title size="medium">리뷰</Title>
+                        <BookReview reviews={reviews} onAdd={addReview} />
+                    </Tab>
+                </Tabs>
+
             </div>
         </BookDetailStyle>
     );

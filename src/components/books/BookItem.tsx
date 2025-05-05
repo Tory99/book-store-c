@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import { formatNumber } from '../../utils/format';
+import { formatNumber } from '@/utils/format';
 import { FaHeart } from 'react-icons/fa';
 import { ViewMode } from './BooksViewSwitcher';
-import { Book } from '../../models/book.model';
-import { getImgSrc } from '../../utils/image';
+import { Book } from '@/models/book.model';
+import { getImgSrc } from '@/utils/image';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -33,7 +33,7 @@ function BookItem({ book, view } : Props) {
     );
 }
 
-const BookItemStyle = styled.div<Pick<Props, "view">>`
+export const BookItemStyle = styled.div<Pick<Props, "view">>`
     a {
         display: flex;
         flex-direction: ${({view}) => view === "grid" ? "column" : "row"};

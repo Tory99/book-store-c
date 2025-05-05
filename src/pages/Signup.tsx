@@ -1,74 +1,59 @@
-import styled from "styled-components";
-import Title from "../components/common/Title";
-import InputText from "../components/common/InputText";
-import Button from "../components/common/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { signup } from "../api/auth.api";
-import { useAlert } from "../hooks/useAlert";
+import { styled } from 'styled-components';
+import Title from '../components/common/Title';
+import InputText from '../components/common/InputText';
+import Button from '../components/common/Button';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useAuth } from '@/hooks/useAuth';
 
-export interface SignupProps {
-    email: string;
-    password: string;
+export interface LoginProps {
+    email : string;
+    password : string;
 }
 
-
 function Signup() {
-    const navigator = useNavigate();
-    const {showAlert} = useAlert();
-    // const [ email, setEmail] = useState("");
-    // const [ password, setPassword] = useState("");
+    const { userSignup } = useAuth();
 
-    // const handleSubmit = 
-    // (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     console.log(email,password);
-    // };
-
-    const { register, handleSubmit, 
-        formState: {errors}
-    } = useForm<SignupProps>();
-
-    const onSubmit = (data: SignupProps) => {
-        signup(data).then((res) => {
-            showAlert('회원가입이 완료되었습니다.');
-            navigator('/login');
-        });
-    };
+    const { register, handleSubmit, formState : {errors} } = useForm<LoginProps>();
+    const onSubmit = (data : LoginProps) => {
+        userSignup(data);
+    }
 
     return (
         <>
-        <Title size="large">회원가입</Title>
-        <SignupStyle>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <fieldset>
-                    <InputText 
-                    placeholder="이메일" 
-                    inputType="email"
-                    {...register("email", { required: true})}
-                    />
-                    {errors.email && <p className='error-text'>이메일을 입력해주세요.</p>}
-                </fieldset>
-                <fieldset>
-                    <InputText 
-                    placeholder="비밀번호" 
-                    inputType="password"
-                    {...register("password", { required: true})}
-                    />
-                    {errors.password && <p className='error-text'>비밀번호을 입력해주세요.</p>}
-                </fieldset>
-                <fieldset>
-                    <Button type="submit" size="medium" scheme="primary">
-                        회원가입
-                    </Button>
-                </fieldset>
-                <div className="info">
-                    <Link to="/reset">비밀번호 초기화</Link>
-                </div>
-            </form>
-        </SignupStyle>
+            <Title size='large'>회원가입</Title>
+            <SignupStyle>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <fieldset>
+                        <InputText placeholder='이메일' inputType='email' {
+                            ...register("email", {required : true})
+                            }
+                            inputMode='email' 
+                        />
+                        {
+                            errors.email && <p className='error-text'>이메일을 입력해주세요.</p>
+                        }
+                    </fieldset>
+                    <fieldset>
+                        <InputText placeholder='비밀번호' inputType='password' {
+                            ...register("password", {required : true})
+                            } 
+                            inputMode="numeric"
+                        />
+                        {
+                            errors.password && <p className='error-text'>비밀번호를 입력해주세요.</p>
+                        }
+                    </fieldset>
+                    <fieldset>
+                        <Button type="submit" size="medium" scheme='primary'>회원가입</Button>
+                    </fieldset>
+                    <div className="info">
+                        <Link to="/reset">비밀번호 초기화</Link>
+                    </div>
+                </form>
+            </SignupStyle>
         </>
-    )
+    );
 }
 
 export const SignupStyle = styled.div`
